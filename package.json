@@ -4,7 +4,8 @@
     "description": "Bible For Light Phone",
     "main": "index.js",
     "scripts": {
-      "test": "test"
+      "test": "test",
+      "build": "firebase deploy"
     },
     "repository": {
       "type": "git",
