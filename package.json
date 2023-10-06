@@ -1,0 +1,25 @@
+{
+    "name": "bibleforlightphone",
+    "version": "0.1.0",
+    "description": "Bible For Light Phone",
+    "main": "index.js",
+    "scripts": {
+      "test": "test"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/NeckbeardThePirate/bibleApp.git"
+    },
+    "keywords": [
+      "JavaScript",
+      "bible",
+      "Light Phone"
+    ],
+    "author": "Judah Helland <judah@hellands.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/NeckbeardThePirate/bibleApp/issues"
+    },
+    "homepage": "https://lpbible.judahhelland.com/"
+  }
+  
