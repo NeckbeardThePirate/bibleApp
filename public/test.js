@@ -14,18 +14,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-document.addEventListener("DOMContentLoaded", function ()  {
-  const submitButton = document.getElementById("submit-button");
+exports.handler = function (context, event, callback) {
+  let twiml = new Twilio.twiml.MessagingResponse();
+  const body = event.Body ? event.Body.toLowerCase() : null;
 
-  submitButton.addEventListener("click", async function () {
-    const userInput = document.getElementById("input-bar").value.toLowerCase();
-
-    const match = userInput.match(/(\w+) (\d+):(\d+)/);
-    if (match) {
+  // Extract the book, chapter, and verse from the user's input
+  const match = body.match(/(\w+) (\d+):(\d+)/);
+  if (match) {
       const book = match[1]; // E.g., "Genesis"
       const chapter = match[2]; // E.g., "1"
       const verse = match[3]; // E.g., "1"
-      console.log(typeof(chapter), chapter);
+
       const documentID = `${book}${chapter}`
       console.log(documentID)
       const docRef = doc(firestore, book, documentID)
@@ -35,15 +34,18 @@ document.addEventListener("DOMContentLoaded", function ()  {
       .then((docSnap) => {
         if (docSnap.exists()) {
           const chapterData = docSnap.data();
-          console.log(chapterData[verse]);
-        } else {
-          console.log('Document does not exist.');
-        }
+          twiml.message(chapterData[verse]);
+          } else {
+            twiml.message(`Verse ${verse} not found.`);
+          }
       })
       .catch((error) => {
         console.error('Error getting document:', error);
+        twiml.message('An error occurred.');
+        callback(null, twiml);
       });
-    }
-
-  });
-})
+    } else {
+    twiml.message('Invalid reference format. Please use "Book Chapter:Verse".');
+    callback(null, twiml);
+  }
+}
